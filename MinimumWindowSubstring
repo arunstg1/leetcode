@@ -1,0 +1,51 @@
+class MinimumWindowSubstring {
+    public String minWindow(String s, String t) {
+        if (t.length() > s.length()) {
+            return "";
+        }
+        int[] pattern = new int[256];
+        int[] string = new int[256];
+        
+        char[] sArr = s.toCharArray();
+        char[] tArr = t.toCharArray();
+        
+        int start = 0, end = 0;
+        int minStart = 0, minEnd = 0;
+        int counter = 0;
+        int minLength = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < tArr.length; i++) {
+            pattern[tArr[i]]++;
+        }
+        
+        while(start < sArr.length && end <= sArr.length) {
+            if (counter < tArr.length) {
+                if (end >= sArr.length) {
+                    break;
+                }
+                string[sArr[end]]++;
+                if (pattern[sArr[end]] > 0 && string[sArr[end]] <= pattern[sArr[end]]) {
+                    counter++;
+                }
+                end++;
+            } else if (counter == tArr.length) {
+                int currDiff = end - start;
+                if (currDiff < minLength) {
+                    minLength = currDiff;
+                    minStart = start; minEnd = end;
+                }
+                
+                string[sArr[start]]--;
+                if (pattern[sArr[start]] == 0) {
+                    start++;
+                } else if (string[sArr[start]] < pattern[sArr[start]]) {
+                    counter--; start++;
+                } else {
+                    start++;
+                }
+            }
+        }
+        
+        return s.substring(minStart, minEnd);
+    }
+}
