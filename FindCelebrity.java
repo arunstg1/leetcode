@@ -19,6 +19,7 @@ public class FindCelebrity.java extends Relation {
             if (k == i) {
                 continue;
             }
+            
             // if k doesn't know the celebrity (i) or the celebrity knows k
             // then assessment of celebrity is wrong and we return no on
             // in this list is a celebrity.
